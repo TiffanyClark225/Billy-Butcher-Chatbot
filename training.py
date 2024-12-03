@@ -88,7 +88,7 @@ hist = model.fit(np.array(train_x), np.array(train_y),
                  epochs=200, batch_size=5, verbose=1) 
   
 # saving the model 
-model.save("chatbotmodel.h5", hist) 
+model.save("billy-buster.h5", hist) 
   
 # print statement to show the  
 # successful training of the Chatbot model 
