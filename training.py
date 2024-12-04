@@ -17,7 +17,7 @@ nltk.download('omw-1.4')
 lemmatizer = WordNetLemmatizer() 
   
 # reading the json.intense file 
-intents = json.loads(open("C:\\Users\\dayne\\repos\\Billy-Butcher-Chatbot\\intense.json").read())
+intents = json.loads(open("/workspaces/Billy-Butcher-Chatbot/intense.json").read())
 
 # creating empty lists to store data 
 words = [] 
