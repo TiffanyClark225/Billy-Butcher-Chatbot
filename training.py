@@ -4,16 +4,20 @@ import json
 import pickle 
 import numpy as np 
 import nltk 
+import keras
   
 from keras.models import Sequential 
 from nltk.stem import WordNetLemmatizer 
 from keras.layers import Dense, Activation, Dropout 
 from keras.optimizers import SGD 
 
+nltk.download('punkt_tab')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 lemmatizer = WordNetLemmatizer() 
   
 # reading the json.intense file 
-intents = json.loads(open("intense.json").read())
+intents = json.loads(open("C:\\Users\\dayne\\repos\\Billy-Butcher-Chatbot\\intense.json").read())
 
 # creating empty lists to store data 
 words = [] 
@@ -60,7 +64,8 @@ for document in documents:
     output_row[classes.index(document[1])] = 1
     training.append([bag, output_row]) 
 random.shuffle(training) 
-training = np.array(training) 
+training = np.array(training, dtype=object)
+
   
 # splitting the data 
 train_x = list(training[:, 0]) 
@@ -81,15 +86,16 @@ model.add(Dense(len(train_y[0]),
                 activation='softmax')) 
   
 # compiling the model 
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True) 
+sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', 
               optimizer=sgd, metrics=['accuracy']) 
 hist = model.fit(np.array(train_x), np.array(train_y), 
                  epochs=200, batch_size=5, verbose=1) 
   
 # saving the model 
-model.save("billy-buster.h5", hist) 
+model.save("billy-buster.keras", hist)
   
 # print statement to show the  
 # successful training of the Chatbot model 
 print("Yay!") 
+
