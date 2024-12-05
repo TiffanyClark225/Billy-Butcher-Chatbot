@@ -1,0 +1,6 @@
+pip install tensorflow
+pip install openai
+pip install transformers
+pip install datasets
+pip install tokenizers
+pip install tf-keras
