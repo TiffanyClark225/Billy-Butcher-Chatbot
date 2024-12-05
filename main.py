@@ -7,14 +7,12 @@ import keras
 from keras.models import load_model 
 from nltk.stem import WordNetLemmatizer 
 
-lemmatizer = WordNetLemmatizer() 
-
 # loading the files we made previously 
+# load chatbot data and model
+lemmatizer = WordNetLemmatizer() 
 intents = json.loads(open("intense.json").read()) 
 words = pickle.load(open('words.pkl', 'rb')) 
-classes = pickle.load(open('classes.pkl', 'rb')) 
-
-# Change to .keras if that's your format
+classes = pickle.load(open('classes.pkl', 'rb'))
 model = load_model('billy-buster.keras') 
 
 def clean_up_sentences(sentence): 
