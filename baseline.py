@@ -1,6 +1,15 @@
+# Author:  Charles Oakes
+# This file is the baseline model for our AI Chatbot
+# This script implements a Markov chain-based chatbot that generates responses in Billy Butcher's style.
+
+
+# Imports
 import random
 import re
 
+# Corpus Processing
+# Processes the input text corpus by lowercasing, tokenizing, and separating punctuation into individual tokens
+# Returns list of processed words from the corpus
 def process_corpus(corpusFile): 
     with open(corpusFile, 'r') as file:
         corpus = file.read()
@@ -12,11 +21,13 @@ def process_corpus(corpusFile):
 
     return corpusWords  #, len(corpusWords)  <- Used for testing purposes
 
-
+# Markov Chain Building
+# Builds an n-gram Markov chain from the processed corpus
 def build_chains(corpusWords, n=3):
     chain = {}
     total_words = len(corpusWords)
 
+    # Build n-grams and map to possible next words
     for i in range(len(corpusWords) - n):
         key = tuple(corpusWords[i: i + n])
         next_word = corpusWords[i + n]
@@ -33,7 +44,7 @@ def build_chains(corpusWords, n=3):
 
     return chain
 
-
+# Generats a response using the Markov chain based on the given seen or random start
 def response(chain, seed=None, length = 50, n = 6):         #the part where billy actually speaks!! (yay, maybe)
 
     if seed is None:
@@ -41,6 +52,7 @@ def response(chain, seed=None, length = 50, n = 6):         #the part where bill
 
     response = list(seed)
 
+    # Generate words until the desired length is reached
     for _ in range(length - len(seed)):
         key = tuple(response[-n:])  # focuses the last n words for the key
         if key in chain:
@@ -51,10 +63,10 @@ def response(chain, seed=None, length = 50, n = 6):         #the part where bill
             if n > 1:
                 return response(chain, seed=tuple(response[-(n-1):]), length=length, n=n-1)
             break
-
+    # Join the response into a single string and return it
     return " ".join(response)
 
-
+# Processes user input to find a suitable seed for generating a response
 def handle_input(usr_input, chain, n=3):        #converts user input to stuff Butcherbot can read
 
     words = usr_input.lower().split()
@@ -68,8 +80,9 @@ def handle_input(usr_input, chain, n=3):        #converts user input to stuff Bu
         return seed  # good seed
     return None  # no good seed
 
-
+# Main Chatbot Interaction
 if __name__ == "__main__":
+    # Load dialogue corpus and process it into words
     corpusFile = "/workspaces/Billy-Butcher-Chatbot/Dialogue/dialogue.txt"
 
     words = process_corpus(corpusFile)
@@ -91,18 +104,19 @@ if __name__ == "__main__":
     """Testing stuff"""
 
 
-    
+    # Chatbot Interaction loop
     print("Butcher: Oi. Let's have ourselves a little chat, eh? Or type 'exit' to bugger off.")
     while True:
-        user_input = input("You: ")
-        if user_input.lower() == "exit":
+        user_input = input("You: ") # Get user input
+        if user_input.lower() == "exit": # Exit condition
             print("Butcher: Beat it.")
             break
 
+        # Generates response
         seed = handle_input(user_input, markov_chain, n = n)
         if seed:
             botResponse = response(markov_chain, seed=seed, n = n)
         else:
             botResponse = response(markov_chain, n = n)  # Random response if no seed match
 
-        print(f"Butcher: {botResponse}")
+        print(f"Butcher: {botResponse}") # Prints the chatbot's response
