@@ -38,8 +38,9 @@ Logan Hester (912111755)
 - training.py = file that trains the tensorflow chatbot based on the intense.json file
 
 # How to Run the Code
-1. Go through Automated_Parsing Jupyter Notebook and run all the cells (This creates dialogue.txt for training)
-2. To try baseline model type on terminal: python baseline.py
-3. To train our final model type on terminal: python training.py
-4. To test final model type on terminal: python testing.py
-5. To try our final model type on terminal: python main.py
+1. Enter on terminal: pip install -r requirements.txt
+2. Change the file path on baseline.py to match yours (comment lets you know where) 
+3. To try baseline model type on terminal: python baseline.py
+4. To train our final model type on terminal: python training.py
+5. To test final model type on terminal: python testing.py
+6. To try our final model type on terminal: python main.py

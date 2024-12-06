@@ -83,6 +83,7 @@ def handle_input(usr_input, chain, n=3):        #converts user input to stuff Bu
 # Main Chatbot Interaction
 if __name__ == "__main__":
     # Load dialogue corpus and process it into words
+    # CHANGE THIS TO MATCH YOUR FILE PATH
     corpusFile = "/workspaces/Billy-Butcher-Chatbot/Dialogue/dialogue.txt"
 
     words = process_corpus(corpusFile)
