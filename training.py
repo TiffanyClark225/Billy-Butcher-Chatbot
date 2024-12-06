@@ -1,3 +1,7 @@
+# Author: Dayne Freudenberg
+# This script trains a neural network chatbot based on a given intents JSON file.
+
+# Imports
 import random
 import json
 import pickle
@@ -8,10 +12,12 @@ from keras.layers import Dense, Activation, Dropout
 from keras.optimizers import SGD
 from nltk.stem import WordNetLemmatizer
 
+# Download NLTK resources
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
+# Initialize the lemmatizer
 lemmatizer = WordNetLemmatizer()
 
 # Load intents JSON
@@ -21,7 +27,7 @@ intents = json.loads(open("intense.json").read())
 words = []
 classes = []
 documents = []
-ignore_letters = ["?", "!", ".", ",", ":", ";", "'"]
+ignore_letters = ["?", "!", ".", ",", ":", ";", "'"] # Characters to ignore
 
 for intent in intents['intents']: #process words and classes, so that it can be used in a neural network environment.
     for pattern in intent['patterns']:
@@ -31,15 +37,19 @@ for intent in intents['intents']: #process words and classes, so that it can be 
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
+# Lemmatize, lowercase, and remove duplicates from 'words'
 words = [lemmatizer.lemmatize(word.lower()) for word in words if word not in ignore_letters] #sort and lemmatize (group by similarity, etc.) words, 
 words = sorted(set(words))
 
+# Save the processed words and classes for later use
 pickle.dump(words, open('words.pkl', 'wb')) #create new container for classes, words.
 pickle.dump(classes, open('classes.pkl', 'wb'))
 
+# Create training data
 training = []
 output_empty = [0] * len(classes)
 
+# Convert each document into bag of words vector and one-hot encoded label
 for document in documents: #creates bag of words, (i.e. corpus)
     bag = []
     word_patterns = document[0]
@@ -51,13 +61,16 @@ for document in documents: #creates bag of words, (i.e. corpus)
     output_row[classes.index(document[1])] = 1 #seperating processed outputs from input corpus
     training.append([bag, output_row])
 
+# Shuffle and convert training data to a NumPy array
 random.shuffle(training)
 training = np.array(training, dtype=object)
 
+# Split training data into features (X) and labels (y)
 train_x = list(training[:, 0])
 train_y = list(training[:, 1])
 
 #ALL OF THE HYPERPARAMETERS BELOW WERE SELECTED VIA VARIOUS TRIAL-AND-ERROR PROCESSES
+# Define Neural Network
 model = Sequential()  #neural network framework with exactly one input and output
 model.add(Dense(128, input_shape=(len(train_x[0]),), activation='relu'))  #create a fully connected neural network (Dense) with 128 hidden units (128) and we ensured that 
 model.add(Dropout(0.5))                                                   #the input, the training data, has it's size/shape correctly mapped( len(train)). reLU as the activation function 
