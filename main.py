@@ -1,3 +1,7 @@
+# Authors: Dayne and Tiffany (few changes)
+# This file runs the TensorFlow AI chatbot and includes optional Hugging Face integration for generating responses.
+
+# Imports
 import random
 import json
 import pickle
@@ -13,14 +17,19 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel, Trainer, TrainingArgume
 
 
 
-# Disable GPU
+# Disable GPU usage to ensure the chatbot runs only on the CPU
+# Added this because of errors I was getting
+# Tiffany Clark
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-# Have added Hugging Face as a backup to help with responses
-# Can easily comment out code to keep it just using tensorflow
+# Optional Hugging Face Pipeline
+# Uncomment these lines to enable Hugging Face for backup response generation.
+# Hugging Face provides an additional method to generate responses if TensorFlow predictions are uncertain.
+# Tiffany Clark
 # Hugging Face pipeline setup
 #hugging_face_model = pipeline("text-generation", model="distilgpt2")
 
+# Dayne
 # Loading files
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open("intense.json").read())
@@ -28,6 +37,7 @@ words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
 model = load_model('billy-buster.keras')
 
+# Dayne
 #natural word processing of user inputs, using the nltk python library 
 #This tokenizes and lemmatizes the words
 def clean_up_sentences(sentence): 
@@ -35,6 +45,7 @@ def clean_up_sentences(sentence):
     sentence_words = [lemmatizer.lemmatize(word) for word in sentence_words]
     return sentence_words
 
+# Dayne
 #creates the bag of words (corpus) for user inputs, and enumerates them accordingly. 
 def bagw(sentence):
     sentence_words = clean_up_sentences(sentence)
@@ -45,6 +56,7 @@ def bagw(sentence):
                 bag[i] = 1
     return np.array(bag)
 
+# Dayne
 #Use the model to predict the class of the user input. 
 #function returns a list of all the probabilities for each corressponding class/output. 
 def predict_class(sentence):
@@ -58,6 +70,7 @@ def predict_class(sentence):
         return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
     return return_list
 
+# Dayne
 #takes the probability given by the function above to randomly select an output of the highest probability class.
 #returns that response.
 def get_tensorflow_response(intents_list, intents_json):
@@ -68,7 +81,7 @@ def get_tensorflow_response(intents_list, intents_json):
             return random.choice(i['responses'])
     return "Sorry, I didn't understand that."
 
-
+# Tiffany Clark
 """def get_huggingface_response(message):
     try:
         prompt = f"You are Billy Butcher from 'The Boys.' Respond to the following in his sarcastic, aggressive tone: {message}"
@@ -84,13 +97,15 @@ def get_response(intents_list, intents_json, message):
     else:
         return get_huggingface_response(message)"""
 
-print("Chatbot is up!")
+print("Chatbot is up! Type exit to end chat.")
 
+# Dayne
+# Continuously listen for user input until the user types "exit"
 while True:
     message = input("> ")
-    if message.lower() == "quit":
+    if message.lower() == "exit":
         break
-
+    # Predict the intent of the user input
     intents_list = predict_class(message)
     if intents_list:
         #response = get_response(intents_list, intents, message)
