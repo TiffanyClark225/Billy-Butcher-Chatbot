@@ -70,7 +70,7 @@ def handle_input(usr_input, chain, n=3):        #converts user input to stuff Bu
 
 
 if __name__ == "__main__":
-    corpusFile = "Billy-Butcher-Chatbot\Butcher_dialogue.txt"
+    corpusFile = "/workspaces/Billy-Butcher-Chatbot/Dialogue/dialogue.txt"
 
     words = process_corpus(corpusFile)
 
