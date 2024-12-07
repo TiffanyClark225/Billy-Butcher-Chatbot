@@ -40,7 +40,7 @@ Logan Hester (912111755)
 - NN_training.py = file that trains the tensorflow chatbot based on the intense.json file
 
 # How to Run the Code
-1. Go through Automated_Parsing Jupyter Notebook and run all the cells (This creates dialogue.txt for training)
+1. Type on terminal: pip install -r requirements.txt
 2. To try our Naive-Bayes Model type on terminal: python naive-bayes.py
 3. To try our Markov-Chains Model type on terminal: python Markov-Chains.py
 4. To train our final model type on terminal: python NN_training.py
