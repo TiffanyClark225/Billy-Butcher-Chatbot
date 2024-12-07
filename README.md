@@ -1,6 +1,6 @@
 ## Billy-Butcher-Chatbot
 
-This is our final Machine Learning (CS460G) project. It is a AI chatbot based on the tone and personality of Billy Butcher in Amazon's series The Boys. We have a Marklov-chain based chatbot for our baseline model, and used tensorflow for our final chatbot.
+This is our final Machine Learning (CS460G) project. It is a AI chatbot based on the tone and personality of Billy Butcher in Amazon's series The Boys. We have a Marklov-chain based chatbot and Naive-Bayes chatbot for our baseline models, and used Neural Network tensorflow for our final chatbot.
 
 
 # Authors:
@@ -19,6 +19,7 @@ Tiffany Clark (12556043)
 - Wrote the final tensorflow intense.json file with more tags, inputs, and responses
 - Created testing suite by writing User Input.txt and Response.txt with potential questions to ask the chatbot and Butcher's responses
 - Wrote training.py script to go through a mini testing suite instead of manually having to input testing questions
+- Wrote Naive-Bayes.py for baseline model
 
 Logan Hester (912111755)
 - Expanded Dayne's initial intense.json file by adding more responses from the dialogue.txt file Tiffany created
@@ -30,17 +31,18 @@ Logan Hester (912111755)
 - Dialogue.txt = Lines of dialogue from Billy Butcher to use for intense.json file and testing
 - User Input.txt = Questions created to help test the chatbot and evaluate its responses
 - Response.txt = Potential responses (Butcher's dialogue) to help test and evaluate the chatbot's responses
-- baseline.py = Markov Chain-based chatbot code for our baseline model
+- Markov-Chain.py = Markov Chain-based chatbot code for our baseline model
 - intense.json = intents file to train the tensorflow chatbot with tags, inputs, and potential responses
 - main.py = file that runs the tensorflow chatbot
+- naive-bayes.py = Naive-Bayes based baseline model
 - requirements = list of requirements to run our code (installs and imports)
-- testing.py = file made that automatted runs and asks the tensorflow chatbot questions to test and evaluate how it does
-- training.py = file that trains the tensorflow chatbot based on the intense.json file
+- NN_testing.py = file made that automatted runs and asks the tensorflow chatbot questions to test and evaluate how it does
+- NN_training.py = file that trains the tensorflow chatbot based on the intense.json file
 
 # How to Run the Code
-1. Enter on terminal: pip install -r requirements.txt
-2. Change the file path on baseline.py to match yours (comment lets you know where) 
-3. To try baseline model type on terminal: python baseline.py
-4. To train our final model type on terminal: python training.py
-5. To test final model type on terminal: python testing.py
+1. Go through Automated_Parsing Jupyter Notebook and run all the cells (This creates dialogue.txt for training)
+2. To try our Naive-Bayes Model type on terminal: python naive-bayes.py
+3. To try our Markov-Chains Model type on terminal: python Markov-Chains.py
+4. To train our final model type on terminal: python NN_training.py
+5. To test final model type on terminal: python NN_testing.py
 6. To try our final model type on terminal: python main.py
